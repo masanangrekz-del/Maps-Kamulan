@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Map Kamulan</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Peta Interaktif Desa Kamulan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    body { margin:0; font-family: system-ui, sans-serif; }
+    #map { height: 100vh; }
+
+    .btn {
+      display:inline-block;
+      padding:6px 10px;
+      margin:2px 0;
+      border-radius:6px;
+      text-decoration:none;
+      border:1px solid #ccc;
+      background:#f9f9f9;
+      font-size: 14px;
+    }
+    .popup-img {
+      width: 120px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+    }
+
+    .legend {
+      background: rgba(255,255,255,0.95);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      font-size: 14px;
+      line-height: 1;
+      color: #222;
+      min-width: 150px;
+    }
+    .legend strong { display:block; margin-bottom:8px; font-size:15px; }
+    .legend .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .legend .legend-item img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      display: inline-block;
+    }
+
+    .leaflet-control .legend { z-index: 1000; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    const map = L.map('map').setView([-8.1015, 111.8157], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const icons = {
+      balai: L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      }),
+      makam: L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/1048/1048943.png",
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      }),
+      sendang: L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/414/414974.png",
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      }),
+      budaya: L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/1040/1040210.png",
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
+        popupAnchor: [0, -36]
+      })
+    };
+
+    const places = [
+      {
+        name: "Balai Desa Kamulan",
+        lat: -8.0988370,
+        lng: 111.8168030,
+        img: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4np4mRTlVI5w57jvUb0JsU1qv-fa16HHwIROgWu1W8IfjytxQJh28NrODeWOip4aXZJ8E5lsf_l42uXI62MJjCUXNjd_LViBiw6cpQQ2UwkPyrQI33W5tmgQPni5iPpPu_GIqV2h=s1360-w1360-h1020-rw",
+        desc: "Desa Kamulan merupakan desa tertua di Trenggalek, sekaligus pencetus kota Trenggalek.",
+        icon: icons.balai
+      },
+      {
+        name: "Makam Gunung Cilik – Desa Kamulan",
+        lat: -8.1043897,
+        lng: 111.814547,
+        img: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npZBNfpeRFRByBVFExDmu3vLFr6GsCmuqaf_c69k9iXmK3GaeY-fg5Gt6CizTYozVfDXRPUfBuC__Z3rAu56T5vwigU5N1xZ7shGTdET1H-_Ve-Nf3zhqyZpDocZa5cNoIHHOCwPn7pFUiK=s1360-w1360-h1020-rw",
+        desc: "Salah satu situs bersejarah di Desa Kamulan yang memiliki nilai budaya dan religi bagi masyarakat setempat.",
+        icon: icons.makam
+      },
+      {
+        name: "Sendang Kamulyan",
+        lat: -8.1039606,
+        lng: 111.8098226,
+        img: "https://i.imghippo.com/files/UUfT6226Wfo.jpg",
+        desc: "Sendang Kamulyan yang memiliki nilai sejarah dan menjadi bagian penting kehidupan masyarakat Desa Kamulan.",
+        icon: icons.sendang
+      },
+      {
+        name: "Dusun Guyang Gajah",
+        lat: -8.0985,
+        lng: 111.8155,
+        img: "https://i.imghippo.com/files/vuxt2394xTo.jpg",
+        desc: "Dusun Guyang Gajah, salah satu wilayah penting di Desa Kamulan.",
+        icon: icons.budaya
+      }
+    ];
+
+    // Marker gabungan Mbah Soenilo & Jaka Sumilir (compact)
+    L.marker([-8.09928, 111.8150], {icon: icons.budaya}).addTo(map).bindPopup(`
+      <b>Mbah Soenilo & Jaka Sumilir</b><br><br>
+      <div style="display:flex; gap:6px;">
+        <div>
+          <img src="https://i.imghippo.com/files/HBSZ6505Ujk.jpg" class="popup-img"><br>
+          <i>Mbah Soenilo, tokoh dihormati masyarakat.</i>
+        </div>
+        <div>
+          <img src="https://i.imghippo.com/files/WWmn1356wko.jpg" class="popup-img"><br>
+          <i>Jaka Sumilir, raja Kamulan (Kusuma Wicitra).</i>
+        </div>
+      </div><br>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=-8.09928,111.8150" target="_blank">📍 Buka di Google Maps</a>
+      <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=-8.09928,111.8150" target="_blank">🧭 Rute ke sini</a>
+    `);
+
+    // Marker lainnya
+    places.forEach(place => {
+      const viewUrl = `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
+      const dirUrl  = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`;
+
+      L.marker([place.lat, place.lng], {icon: place.icon}).addTo(map).bindPopup(`
+        <b>${place.name}</b><br>
+        <img src="${place.img}" class="popup-img"><br>
+        <i>${place.desc}</i><br><br>
+        <a class="btn" href="${viewUrl}" target="_blank">📍 Buka di Google Maps</a>
+        <a class="btn" href="${dirUrl}" target="_blank">🧭 Rute ke sini</a>
+      `);
+    });
+
+    // Legend: Balai, Sendang, Budaya
+    const legend = L.control({position: "bottomright"});
+    legend.onAdd = function(map) {
+      const div = L.DomUtil.create("div", "legend");
+      div.innerHTML = `
+        <strong>Keterangan</strong>
+        <div class="legend-item"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="balai"> <span>Balai Desa</span></div>
+        <div class="legend-item"><img src="https://cdn-icons-png.flaticon.com/512/414/414974.png" alt="sendang"> <span>Sendang</span></div>
+        <div class="legend-item"><img src="https://cdn-icons-png.flaticon.com/512/1040/1040210.png" alt="budaya"> <span>Budaya</span></div>
+      `;
+      return div;
+    };
+    legend.addTo(map);
+
+    L.DomEvent.disableClickPropagation(L.DomUtil.get('map').querySelector('.legend') || L.DomUtil.get('map'));
+  </script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
