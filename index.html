@@ -16,7 +16,6 @@
     .legend .legend-item { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
     .legend .legend-item img { width:22px; height:22px; object-fit:contain; }
 
-    /* Judul overlay */
     .map-title {
       position: absolute;
       top: 12px;
@@ -57,38 +56,54 @@
       { name:"Dusun Guyang Gajah", lat:-8.0985, lng:111.8155, img:"https://i.imghippo.com/files/vuxt2394xTo.jpg", desc:"Dusun Guyang Gajah, salah satu wilayah penting.", icon:icons.budaya }
     ];
 
-    // Marker khusus
+    // Marker untuk Mbah Soenilo & Jaka Sumilir
     L.marker([-8.09928, 111.8150], {icon: icons.budaya}).addTo(map).bindPopup(`
       <b>Mbah Soenilo & Jaka Sumilir</b><br><br>
-      <div style="display:flex; gap:6px;">
-        <div>
+      <div style="display:flex; gap:10px;">
+        <div style="text-align:center;">
           <img src="https://i.imghippo.com/files/HBSZ6505Ujk.jpg" class="popup-img"><br>
-          <i>Mbah Soenilo, tokoh dihormati masyarakat.</i>
+          <i>Mbah Soenilo, tokoh dihormati masyarakat.</i><br>
+          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/11/mbah-soenilo-karangnongko-yang-akan.html" target="_blank">📑 Metadata Soenilo</a>
         </div>
-        <div>
+        <div style="text-align:center;">
           <img src="https://i.imghippo.com/files/WWmn1356wko.jpg" class="popup-img"><br>
-          <i>Jaka Sumilir, raja Kamulan (Kusuma Wicitra).</i>
+          <i>Jaka Sumilir, raja Kamulan (Kusuma Wicitra).</i><br>
+          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/11/legenda-jaka-semilir-sang-pendiri.html" target="_blank">📑 Metadata Jaka Sumilir</a>
         </div>
       </div><br>
       <a class="btn" href="https://www.google.com/maps/search/?api=1&query=-8.09928,111.8150" target="_blank">📍 Google Maps</a>
+      <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=-8.09928,111.8150" target="_blank">🧭 Rute ke sini</a>
     `);
 
-    // Marker umum
+    // Marker umum (termasuk Makam Gunung Cilik)
     places.forEach(place => {
       const viewUrl = `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
       const dirUrl  = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`;
-      L.marker([place.lat, place.lng], {icon: place.icon}).addTo(map).bindPopup(`
-        <b>${place.name}</b><br>
-        <img src="${place.img}" class="popup-img"><br>
-        <i>${place.desc}</i><br><br>
-        <a class="btn" href="${viewUrl}" target="_blank">📍 Google Maps</a>
-        <a class="btn" href="${dirUrl}" target="_blank">🧭 Rute</a>
-      `);
+      if (place.name === "Makam Gunung Cilik") {
+        // versi khusus dengan metadata
+        L.marker([place.lat, place.lng], {icon: place.icon}).addTo(map).bindPopup(`
+          <b>${place.name}</b><br>
+          <img src="${place.img}" class="popup-img"><br>
+          <i>${place.desc}</i><br><br>
+          <a class="btn" href="${viewUrl}" target="_blank">📍 Google Maps</a>
+          <a class="btn" href="${dirUrl}" target="_blank">🧭 Rute ke sini</a>
+          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/10/menyusuri-arti-keberkahan-dan-keindahan.html" target="_blank">📑 Metadata</a>
+        `);
+      } else {
+        // default popup tanpa metadata tambahan
+        L.marker([place.lat, place.lng], {icon: place.icon}).addTo(map).bindPopup(`
+          <b>${place.name}</b><br>
+          <img src="${place.img}" class="popup-img"><br>
+          <i>${place.desc}</i><br><br>
+          <a class="btn" href="${viewUrl}" target="_blank">📍 Google Maps</a>
+          <a class="btn" href="${dirUrl}" target="_blank">🧭 Rute ke sini</a>
+        `);
+      }
     });
 
-    // Legend lengkap (ada Makam)
+    // Legend
     const legend = L.control({position:"bottomright"});
-    legend.onAdd = function() {
+    legend.onAdd = function(map) {
       const div = L.DomUtil.create("div", "legend");
       div.innerHTML = `
         <strong>Keterangan</strong>
@@ -103,15 +118,15 @@
 
     // Batas wilayah Kamulan (kotak merah)
     const bounds = [
-      [-8.1060, 111.8080], // kiri bawah
-      [-8.1060, 111.8220], // kanan bawah
-      [-8.0960, 111.8220], // kanan atas
-      [-8.0960, 111.8080]  // kiri atas
+      [-8.1060, 111.8080],
+      [-8.1060, 111.8220],
+      [-8.0960, 111.8220],
+      [-8.0960, 111.8080]
     ];
     L.polygon(bounds, {color: "red", weight: 2, fill: false}).addTo(map)
       .bindPopup("Batas wilayah Desa Kamulan");
 
-    // Auto zoom sesuai kotak merah
+    // Arahkan peta agar mencakup kotak
     map.fitBounds(bounds);
   </script>
 </body>
