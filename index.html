@@ -9,13 +9,45 @@
   <style>
     body { margin:0; font-family: system-ui, sans-serif; }
     #map { height: 100vh; }
-    .btn { padding:6px 10px; margin:2px; border:1px solid #ccc; border-radius:6px; background:#f9f9f9; font-size:14px; text-decoration:none; }
-    .popup-img { width:120px; border-radius:6px; margin-bottom:4px; }
-    .legend { background:rgba(255,255,255,0.95); padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.25); font-size:14px; }
-    .legend strong { display:block; margin-bottom:8px; font-size:15px; }
-    .legend .legend-item { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-    .legend .legend-item img { width:22px; height:22px; object-fit:contain; }
 
+    .btn {
+      padding:6px 10px;
+      margin:2px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      background:#f9f9f9;
+      font-size:14px;
+      text-decoration:none;
+      display:inline-block;
+    }
+    .popup-img {
+      width:120px;
+      border-radius:6px;
+      margin-bottom:4px;
+    }
+    .legend {
+      background:rgba(255,255,255,0.95);
+      padding:10px;
+      border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.25);
+      font-size:14px;
+    }
+    .legend strong {
+      display:block;
+      margin-bottom:8px;
+      font-size:15px;
+    }
+    .legend .legend-item {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:6px;
+    }
+    .legend .legend-item img {
+      width:22px;
+      height:22px;
+      object-fit:contain;
+    }
     .map-title {
       position: absolute;
       top: 12px;
@@ -38,22 +70,47 @@
 
   <script>
     const map = L.map('map').setView([-8.1015, 111.8157], 16);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
     const icons = {
-      balai: L.icon({ iconUrl:"https://cdn-icons-png.flaticon.com/512/684/684908.png", iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]}),
-      makam: L.icon({ iconUrl:"https://cdn-icons-png.flaticon.com/512/1048/1048943.png", iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]}),
-      sendang: L.icon({ iconUrl:"https://cdn-icons-png.flaticon.com/512/414/414974.png", iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]}),
-      budaya: L.icon({ iconUrl:"https://cdn-icons-png.flaticon.com/512/1040/1040210.png", iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-36]})
+      balai: L.icon({
+        iconUrl:"https://cdn-icons-png.flaticon.com/512/684/684908.png",
+        iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]
+      }),
+      makam: L.icon({
+        iconUrl:"https://cdn-icons-png.flaticon.com/512/1048/1048943.png",
+        iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]
+      }),
+      sendang: L.icon({
+        iconUrl:"https://cdn-icons-png.flaticon.com/512/414/414974.png",
+        iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32]
+      }),
+      budaya: L.icon({
+        iconUrl:"https://cdn-icons-png.flaticon.com/512/1040/1040210.png",
+        iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-36]
+      })
     };
 
     const places = [
-      { name:"Balai Desa Kamulan", lat:-8.0988370, lng:111.8168030, img:"https://lh3.googleusercontent.com/gps-cs-s/AC9h4np4mRTlVI5w57jvUb0JsU1qv-fa16HHwIROgWu1W8IfjytxQJh28NrODeWOip4aXZJ8E5lsf_l42uXI62MJjCUXNjd_LViBiw6cpQQ2UwkPyrQI33W5tmgQPni5iPpPu_GIqV2h=s1360-w1360-h1020-rw", desc:"Desa Kamulan merupakan desa tertua di Trenggalek.", icon:icons.balai },
-      { name:"Makam Gunung Cilik", lat:-8.1043897, lng:111.814547, img:"https://lh3.googleusercontent.com/gps-cs-s/AC9h4npZBNfpeRFRByBVFExDmu3vLFr6GsCmuqaf_c69k9iXmK3GaeY-fg5Gt6CizTYozVfDXRPUfBuC__Z3rAu56T5vwigU5N1xZ7shGTdET1H-_Ve-Nf3zhqyZpDocZa5cNoIHHOCwPn7pFUiK=s1360-w1360-h1020-rw", desc:"Situs bersejarah di Desa Kamulan.", icon:icons.makam },
-      { name:"Sendang Kamulyan", lat:-8.1039606, lng:111.8098226, img:"https://i.imghippo.com/files/UUfT6226Wfo.jpg", desc:"Sendang Kamulyan memiliki nilai sejarah.", icon:icons.sendang },
-      { name:"Dusun Guyang Gajah", lat:-8.0985, lng:111.8155, img:"https://i.imghippo.com/files/vuxt2394xTo.jpg", desc:"Dusun Guyang Gajah, salah satu wilayah penting.", icon:icons.budaya }
+      { name:"Balai Desa Kamulan", lat:-8.0988370, lng:111.8168030,
+        img:"https://lh3.googleusercontent.com/gps-cs-s/AC9h4np4mRTlVI5w57jvUb0JsU1qv-fa16HHwIROgWu1W8IfjytxQJh28NrODeWOip4aXZJ8E5lsf_l42uXI62MJjCUXNjd_LViBiw6cpQQ2UwkPyrQI33W5tmgQPni5iPpPu_GIqV2h=s1360-w1360-h1020-rw",
+        desc:"Desa Kamulan merupakan desa tertua di Trenggalek.", icon:icons.balai
+      },
+      { name:"Makam Gunung Cilik", lat:-8.1043897, lng:111.814547,
+        img:"https://lh3.googleusercontent.com/gps-cs-s/AC9h4npZBNfpeRFRByBVFExDmu3vLFr6GsCmuqaf_c69k9iXmK3GaeY-fg5Gt6CizTYozVfDXRPUfBuC__Z3rAu56T5vwigU5N1xZ7shGTdET1H-_Ve-Nf3zhqyZpDocZa5cNoIHHOCwPn7pFUiK=s1360-w1360-h1020-rw",
+        desc:"Situs bersejarah di Desa Kamulan.", icon:icons.makam
+      },
+      { name:"Sendang Kamulyan", lat:-8.1039606, lng:111.8098226,
+        img:"https://i.imghippo.com/files/UUfT6226Wfo.jpg",
+        desc:"Sendang Kamulyan memiliki nilai sejarah.", icon:icons.sendang
+      },
+      { name:"Dusun Guyang Gajah", lat:-8.0985, lng:111.8155,
+        img:"https://i.imghippo.com/files/vuxt2394xTo.jpg",
+        desc:"Dusun Guyang Gajah, salah satu wilayah penting.", icon:icons.budaya
+      }
     ];
 
     // Marker untuk Mbah Soenilo & Jaka Sumilir
@@ -63,12 +120,12 @@
         <div style="text-align:center;">
           <img src="https://i.imghippo.com/files/HBSZ6505Ujk.jpg" class="popup-img"><br>
           <i>Mbah Soenilo, tokoh dihormati masyarakat.</i><br>
-          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/11/mbah-soenilo-karangnongko-yang-akan.html" target="_blank">📑 Metadata Soenilo</a>
+          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/11/mbah-soenilo-karangnongko-yang-akan.html" target="_blank" style="margin-top:8px; display:inline-block;">📑 Sumber Informasi</a>
         </div>
         <div style="text-align:center;">
           <img src="https://i.imghippo.com/files/WWmn1356wko.jpg" class="popup-img"><br>
           <i>Jaka Sumilir, raja Kamulan (Kusuma Wicitra).</i><br>
-          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/11/legenda-jaka-semilir-sang-pendiri.html" target="_blank">📑 Metadata Jaka Sumilir</a>
+          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/11/legenda-jaka-semilir-sang-pendiri.html" target="_blank" style="margin-top:8px; display:inline-block;">📑 Sumber Informasi</a>
         </div>
       </div><br>
       <a class="btn" href="https://www.google.com/maps/search/?api=1&query=-8.09928,111.8150" target="_blank">📍 Google Maps</a>
@@ -78,19 +135,20 @@
     // Marker umum (termasuk Makam Gunung Cilik)
     places.forEach(place => {
       const viewUrl = `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
-      const dirUrl  = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`;
+      const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`;
+
       if (place.name === "Makam Gunung Cilik") {
-        // versi khusus dengan metadata
         L.marker([place.lat, place.lng], {icon: place.icon}).addTo(map).bindPopup(`
           <b>${place.name}</b><br>
           <img src="${place.img}" class="popup-img"><br>
           <i>${place.desc}</i><br><br>
           <a class="btn" href="${viewUrl}" target="_blank">📍 Google Maps</a>
           <a class="btn" href="${dirUrl}" target="_blank">🧭 Rute ke sini</a>
-          <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/10/menyusuri-arti-keberkahan-dan-keindahan.html" target="_blank">📑 Metadata</a>
+          <div style="margin-top:10px;">
+            <a class="btn" href="https://desakamulantrenggalek.blogspot.com/2024/10/menyusuri-arti-keberkahan-dan-keindahan.html" target="_blank">📑 Sumber Informasi</a>
+          </div>
         `);
       } else {
-        // default popup tanpa metadata tambahan
         L.marker([place.lat, place.lng], {icon: place.icon}).addTo(map).bindPopup(`
           <b>${place.name}</b><br>
           <img src="${place.img}" class="popup-img"><br>
@@ -116,7 +174,7 @@
     };
     legend.addTo(map);
 
-    // Batas wilayah Kamulan (kotak merah)
+    // Batas wilayah Kamulan
     const bounds = [
       [-8.1060, 111.8080],
       [-8.1060, 111.8220],
@@ -126,7 +184,6 @@
     L.polygon(bounds, {color: "red", weight: 2, fill: false}).addTo(map)
       .bindPopup("Batas wilayah Desa Kamulan");
 
-    // Arahkan peta agar mencakup kotak
     map.fitBounds(bounds);
   </script>
 </body>
